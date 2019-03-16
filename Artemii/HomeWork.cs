@@ -18,6 +18,7 @@ namespace procents_branchess
             Console.WriteLine(" ");
             Console.Write("Total puchase with discount:");
             double total = summ-((summ / 100) * discount);
+             Math.Round(total);//Не работает!
             Console.WriteLine(total);
             Console.ReadKey();
         }
