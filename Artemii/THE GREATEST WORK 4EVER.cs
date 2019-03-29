@@ -74,10 +74,10 @@ namespace Homework
 
                         else if (less > 0)
                         {
-                            full = full + (alpha*(mass[b]+(mass[a]-mass[b])));
+                            full = full + (alpha*(mass[a]-mass[b]));
                         }
                     }
-                    mass = full.ToString().ToCharArray().Select(x => x - '0').ToArray();//повтор для точности!
+                    mass = full.ToString().ToCharArray().Select(x => x - '0').ToArray();//перезалив
                     alpha *= 10;
                     a++;
                     b--;
@@ -101,10 +101,10 @@ namespace Homework
 
                         else if (less > 0)
                         {
-                            full = full + (alpha * (mass[b] + (mass[a] - mass[b])));
+                            full = full + (alpha * (mass[a] - mass[b]));
                         }
                     }
-                    mass = full.ToString().ToCharArray().Select(x => x - '0').ToArray();//повтор для точности!
+                    mass = full.ToString().ToCharArray().Select(x => x - '0').ToArray();//перезалив!
                     alpha *= 10;
                     a++;
                     b--;
