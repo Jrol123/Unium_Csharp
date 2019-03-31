@@ -11,20 +11,33 @@ namespace Parents
         static void Main(string[] args)
         {
             Console.WriteLine("all peple");
-            int N = int.Parse(Console.ReadLine());
+            double all = double.Parse(Console.ReadLine());
             Console.WriteLine("momos");
-            int K = int.Parse(Console.ReadLine());
-            int tri = N / 3;
-            int count = tri - K;
-            if (count <= 0)
+
+            double moms = double.Parse(Console.ReadLine());
+            double last = all / 3;
+            double moms2 = moms;
+            Console.WriteLine();
+            while(last != moms2)
             {
-                Console.WriteLine("u need no momos");
+                all++;
+                moms2++;
+                last = all / 3;
+                Math.Ceiling(last);
             }
-            else if (count > 0)
+
+            double less = moms2 - moms;
+
+            if(less == 0)
             {
-                Console.WriteLine("u need " + count + "momos");
+                Console.WriteLine("already 1/3 soviet is momos");
             }
-            Console.ReadKey();
+            else
+            {
+                Console.WriteLine("U need to add "+ less +" momos");
+            }
+            
+                Console.ReadKey();
 
         }
     }
