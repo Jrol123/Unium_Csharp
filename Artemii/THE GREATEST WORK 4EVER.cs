@@ -11,9 +11,7 @@ namespace Homework
         static void Main(string[] args)
         {
             Console.WriteLine("enter full number");
-            int full = int.Parse(Console.ReadLine()); //пока-что только до 10!
-            /*var dec = float.Parse(Console.ReadLine());
-            var full = dec.ToString("F0");*/
+            long full = long.Parse(Console.ReadLine());
 
             int[] mass = full.ToString().ToCharArray().Select(x => x - '0').ToArray();//дробим в массив
             int count = mass.Length;
