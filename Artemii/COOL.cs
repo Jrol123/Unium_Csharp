@@ -14,16 +14,16 @@ namespace ConsoleApp24
             int count = mass.Length;//длина
             int unzero = 0;
 
-            for(int i = 0; i<count; i++)
+            for (int i = 0; i < count; i++)
             {
-                if(mass[i] == 0)
+                if (mass[i] == 0)
                 {
 
                 }
                 else
                 {
                     unzero++;
-                }     
+                }
             }
             Console.WriteLine("antizero = " + unzero);
             Console.ReadKey();
@@ -61,7 +61,7 @@ namespace ConsoleApp24
 
             do
             {
-                for(int i = 1; i < count; i++)
+                for (int i = 1; i < count; i++)
                 {
                     if (mass[f] < mass[i])
                     {
@@ -74,13 +74,13 @@ namespace ConsoleApp24
                         stat = true;
                     }
                 }
-            } while (stat!=true);
+            } while (stat != true);
 
             Console.WriteLine("The most powerfull is: " + mass[f]);
 
             Console.ReadKey();
-            
-            
+
+
         }
         static void Main3(string[] args)
         {
@@ -102,25 +102,25 @@ namespace ConsoleApp24
                 }
                 else
                 {
-                    damn+=mass[i];
+                    damn += mass[i];
                     unzero++;
                 }
             }
-            Console.WriteLine("rdy: " + damn/unzero);
+            Console.WriteLine("rdy: " + damn / unzero);
             Console.ReadKey();
         }
         static void Main4(string[] args)
         {
-            int[] mass = {3,6,8,1,0};
+            int[] mass = { 3, 6, 8, 1, 0 };
 
             Console.WriteLine("enter");
             int user = int.Parse(Console.ReadLine());
 
             Boolean stat = false;
 
-            for (int i = 0; i <mass.Length;i++)
+            for (int i = 0; i < mass.Length; i++)
             {
-                if(user == mass[i])
+                if (user == mass[i])
                 {
                     stat = true;
                 }
@@ -129,7 +129,7 @@ namespace ConsoleApp24
 
                 }
             }
-            if(stat == true)
+            if (stat == true)
             {
                 Console.WriteLine("yup, it does");
             }
@@ -139,7 +139,7 @@ namespace ConsoleApp24
             }
             Console.ReadKey();
         }
-        static void Main(string[] args)
+        static void Main5(string[] args)
         {
             Console.WriteLine("enter full number");
             long full = long.Parse(Console.ReadLine());
@@ -151,12 +151,11 @@ namespace ConsoleApp24
             int i = 1;
             int f = mass[i] - mass[d];
             Boolean stat = false;
-            d++;
-            i++;
-            for(; i < count;i++)
+
+            for (; i < count; i++)
             {
-                d = i-1;
-                f1 = mass[i]-mass[d];
+                d = i - 1;
+                f1 = mass[i] - mass[d];
                 if (f != f1)
                 {
                     stat = false;
@@ -167,7 +166,7 @@ namespace ConsoleApp24
                     stat = true;
                 }
             }
-            if(stat == true)
+            if (stat == true)
             {
                 Console.WriteLine("GJ");
             }
@@ -176,6 +175,74 @@ namespace ConsoleApp24
                 Console.WriteLine("BJ");
             }
             Console.ReadKey();
+        }
+        static void Main(string[] args)
+        {
+            Console.WriteLine("enter full number");
+            long full = long.Parse(Console.ReadLine());
+
+            int[] mass = full.ToString().ToCharArray().Select(x => x - '0').ToArray();//дробим в массив
+            int count = mass.Length - 1;//длина
+            int ch = 1;
+            int t;
+            Boolean stat = false;
+            Console.WriteLine("up or down?(up//down)");
+            string ans = Console.ReadLine();
+
+            if(ans == "up")
+            {
+                while (stat != true)
+                {
+                    for (int i = 0; i < count; i++)
+                    {
+                        if (mass[ch] < mass[i])
+                        {
+                            t = mass[ch];
+                            mass[ch] = mass[i];
+                            mass[i] = t;
+                            ch = 1;
+                            i = 0;
+                            stat = false;
+                            break;
+                        }
+                        else
+                        {
+                            stat = true;
+                        }
+                        ch++;
+                    }
+                }
+            }
+            else
+            {
+                while (stat != true)
+                {
+                    for (int i = 0; i < count; i++)
+                    {
+                        if (mass[ch] > mass[i])
+                        {
+                            t = mass[ch];
+                            mass[ch] = mass[i];
+                            mass[i] = t;
+                            ch = 1;
+                            i = 0;
+                            stat = false;
+                            break;
+                        }
+                        else
+                        {
+                            stat = true;
+                        }
+                        ch++;
+                    }
+                }
+            }
+            foreach (int i in mass)
+            {
+                Console.Write(i);
+            }
+            Console.ReadKey();
+
         }
     }
 }
