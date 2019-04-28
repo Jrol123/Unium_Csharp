@@ -185,18 +185,59 @@ namespace ConsoleApp24
             int count = mass.Length - 1;//длина
             int ch = 1;
             int t;
+            Boolean stat = false;
+            Console.WriteLine("up or down?(up//down)");
+            string ans = Console.ReadLine();
 
-            for(int i = 0;i<count;i++)
+            if(ans == "up")
             {
-                    if (mass[ch] < mass[i])
+                while (stat != true)
+                {
+                    for (int i = 0; i < count; i++)
                     {
-                        t = mass[ch];
-                        mass[ch] = mass[i];
-                        mass[i] = t;
+                        if (mass[ch] < mass[i])
+                        {
+                            t = mass[ch];
+                            mass[ch] = mass[i];
+                            mass[i] = t;
+                            ch = 1;
+                            i = 0;
+                            stat = false;
+                            break;
+                        }
+                        else
+                        {
+                            stat = true;
+                        }
+                        ch++;
                     }
-                ch++;
+                }
             }
-            foreach(int i in mass)
+            else
+            {
+                while (stat != true)
+                {
+                    for (int i = 0; i < count; i++)
+                    {
+                        if (mass[ch] > mass[i])
+                        {
+                            t = mass[ch];
+                            mass[ch] = mass[i];
+                            mass[i] = t;
+                            ch = 1;
+                            i = 0;
+                            stat = false;
+                            break;
+                        }
+                        else
+                        {
+                            stat = true;
+                        }
+                        ch++;
+                    }
+                }
+            }
+            foreach (int i in mass)
             {
                 Console.Write(i);
             }
