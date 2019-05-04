@@ -4,39 +4,64 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleApp27
+namespace treppit
 {
     class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("De / un ?");
-            string deun= Console.ReadLine();
-            string hi = "Hello world";
-            int f = 0;
-            Console.WriteLine(hi[f]);
+            Console.WriteLine("Dechipher or unchipher?(dech/unch)");
+            string ans = Console.ReadLine();
 
-            char [] alph = {' ','А','Б','В','Г','Д','Е','Ж','З','И','К','Л','М','Н','О','П','Р','С','Т','У','Ф','Х','Ц','Ш','Ч','Ъ','Ь','Ы','Ю','Я', } ;
-            if(deun == "De")
+            string alpha = " АБВГДЕЖЗИКЛМНОПРСТУФХЦШЩЧЪЬЫЮЯ";
+            string ended = "";
+            int x = 0;
+
+            if (ans == "unch")
             {
-                Console.WriteLine("enter ur encrypted message");
+                Console.WriteLine("Enter ur uncripted message");
                 string message = Console.ReadLine();
+
                 for (int i = 0; i < message.Length; i++)
                 {
-                    if(message[i] == alph[29])
+                    while (message[i] != alpha[x])
                     {
-
+                        x++;
+                    }
+                    if (alpha[x] == ' ')
+                    {
+                        ended = ended + "Я";
                     }
                     else
                     {
-
+                        ended = ended + alpha[--x];
                     }
-                }   
+                    x = 0;
+                }
             }
             else
             {
+                Console.WriteLine("Enter ur normal message");
+                string message = Console.ReadLine();
 
+                for (int i = 0; i < message.Length; i++)
+                {
+                    while (message[i] != alpha[x])
+                    {
+                        x++;
+                    }
+                    if (alpha[x] == 'Я')
+                    {
+                        ended = ended + " ";
+                    }
+                    else
+                    {
+                        ended = ended + alpha[++x];
+                    }
+                    x = 0;
+                }
             }
+            Console.WriteLine(ended);
             Console.ReadKey();
         }
     }
