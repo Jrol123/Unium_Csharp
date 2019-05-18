@@ -8,23 +8,23 @@ namespace LetsPlaySomeCards
 {
     class Program
     {
-        public void Mast(int a, char b)
+        public void Mast(int a, out char mast)
         {
             a /= 10;
-            b = '◘';
+            mast = '◘';
             switch(a)
             {
                 case 1:
-                    char b = '♥';
+                    mast = '♥';
                     break;
                 case 2:
-                    char b = '♦';
+                    mast = '♦';
                     break;
                 case 3:
-                    char b = '♣';
+                    mast = '♣';
                     break;
                 case 4:
-                    char b = '♠';
+                    mast = '♠';
                     break;
             }
         }
@@ -32,7 +32,6 @@ namespace LetsPlaySomeCards
         {
             for(int z = 0; z < 6; z++)
             {
-                char b = '♣';
                 foreach (int i in players)
                 {
                     int delete = i / 10;
@@ -60,7 +59,7 @@ namespace LetsPlaySomeCards
                     {
                         Console.Write(i);
                     }
-                    char alp = Mast(i, b);
+                    Mast(i, out char alp);
                     Console.WriteLine("{0}, ",alp);
                 }
             }
@@ -119,8 +118,8 @@ namespace LetsPlaySomeCards
 
             Console.WriteLine();
             Console.WriteLine();
-            char lol = '◘';
-            Mast(swin, lol);
+            char lol = '♣';
+            Mast(swin, out lol);
             Console.WriteLine("The mast of winner is: {0}",lol);
 
             Console.ReadKey();
@@ -192,3 +191,4 @@ namespace LetsPlaySomeCards
         }
     }
 }
+
