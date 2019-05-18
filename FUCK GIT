@@ -130,8 +130,7 @@ namespace LetsPlaySomeCards
             Console.WriteLine();
             Console.WriteLine();
             
-            char lol = '♣';
-            Mast(swin, out lol);
+            Mast(swin, out char lol);
             Console.WriteLine("The mast of winner is: {0}",lol);
             
             Console.ReadKey();
