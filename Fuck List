@@ -1,0 +1,231 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace LetsPlaySomeCards
+{
+    class Program
+    {
+        static void Mast(int a, out char mast)
+        {
+            a %= 10;
+            mast = '◘';
+            switch (a)
+            {
+                case 1:
+                    mast = '♥';
+                    break;
+                case 2:
+                    mast = '♦';
+                    break;
+                case 3:
+                    mast = '♣';
+                    break;
+                case 4:
+                    mast = '♠';
+                    break;
+            }
+        }//какие масти?
+        static void OutCards(List<List<int>> players, int f)
+        {
+            for (int z = 0; z < f; z++)
+            {
+                for(int y = 0; y < 6; y++)
+                {
+                    int i = players[z][y];
+                    int delete = i / 10;
+                    string up10 = " ";
+                    if (delete > 10)
+                    {
+                        switch (delete)
+                        {
+                            case 11:
+                                up10 = "В";
+                                break;
+                            case 12:
+                                up10 = "Д";
+                                break;
+                            case 13:
+                                up10 = "К";
+                                break;
+                            case 14:
+                                up10 = "Т";
+                                break;
+                        }
+                        Console.Write(up10);
+                    }
+                    else
+                    {
+                        Console.Write(delete);
+                    }
+                    Mast(i, out char alp);
+                    Console.Write("{0}, ", alp);
+                }
+            }
+            Console.WriteLine();
+        }//какие карты?
+        static void GetCards(List<List<int>> players, List<List<int>> cards, int f, int hand, Random randcs, out List<List<int>> play)
+        {
+            for (; hand < 6; hand++)
+            {
+                int ranmast = randcs.Next(0, 3);
+                int rancards = randcs.Next(0, 8);
+
+                players[f].Add(cards[ranmast][rancards]);
+                cards[ranmast].Remove(cards[ranmast][rancards]);
+                if(cards.GetLength(0) == 0)
+                {
+                    cards.RemoveAt(ranmast);
+                }
+                //cards.RemoveAt(ranmast, rancards);
+                
+            }
+            play = players;
+            hand = 0;
+
+        }//добор карт
+        static void Main(string[] args)
+        {
+            List<List<int>> players = new List<List<int>>();
+            List<List<int>> cards = new List<List<int>>();
+
+            int[] mast = { 1, 2, 3, 4 };
+
+            Random randcs = new Random();
+            /*
+            int cfs = 0;
+            int cnd = 0;
+            
+            Boolean stat = false;
+            */
+            int win = randcs.Next(0, 3);
+            int swin = win++;
+            swin *= 10;
+
+            //сколько рук?
+
+            Console.WriteLine("Count of player's");
+            int playCount = int.Parse(Console.ReadLine());
+
+            for(int f = 0;f<playCount;f++)//добавляем игроков
+            {
+                players.Add(new List<int>());
+            }
+            int hand = 0;
+
+            for (int f = 0; f < 4; f++)//картишки в колоду!
+            {
+                cards.Add(new List<int>());
+                int ff = f + 1;
+                for (int z = 6; z < 15; z++)
+                {
+                    int y = z - 6;
+                    int alph = z * 10;
+                    cards[f].Add(alph + ff);
+                }
+            }
+
+            //руки игрокам!
+
+            for (int f = 0; f < playCount; f++)
+            {
+                GetCards(players, cards, f, hand, randcs, out List<List<int>> play);
+                players = play;
+            }
+            hand = 6;
+
+            //какие руки, на вывод
+            for (int f = 0; f < playCount; f++)
+            {
+                int ff = f+1;
+                Console.Write("{0}'st player hand = ", ff);
+                OutCards(players,playCount);
+            }
+
+            Console.WriteLine();
+            Console.WriteLine();
+
+            char lol = '♣';
+            Mast(swin, out lol);
+            Console.WriteLine("The mast of winner is: {0}", lol);
+
+            swin /= 10;
+            Console.ReadKey();
+
+
+
+
+
+
+
+            // НАЧАЛО ИГРЫ!
+            //while()
+            /*
+           for (int y = 0; y < 6; y++)
+           {
+               int fst = firstplay[y];
+
+               for (int i = 0; i < 6; i++)
+               {
+                   int scd = secondplay[i];
+                   if (fst % 10 == scd % 10)
+                   {
+                       if (scd > fst)
+                       {
+                           stat = false;
+                           break;
+                       }
+                       else
+                       {
+                           stat = true;
+                       }
+
+                   }
+                   else if(fst % 10 == win)
+                   {
+                       stat = true;
+                   }
+                   else if (scd % 10 == win)
+                   {
+                       stat = false;
+                       break;
+                   }
+
+               }
+               if (stat == false)
+               {
+                   cnd++;
+               }
+               else
+               {
+                   cfs++;
+               }
+           }
+
+           //кто победил, на вывод
+           Console.WriteLine();
+           Console.WriteLine();
+           Console.WriteLine();
+           Console.WriteLine();
+           /*
+           Console.WriteLine("score of first player is: {0}", cfs);
+           Console.WriteLine("score of second player is: {0}", cnd);
+           if(cfs > cnd)
+           {
+               Console.WriteLine("First player wins!");
+           }
+           else if (cfs < cnd)
+           {
+               Console.WriteLine("Second player wins!");
+           }
+           else
+           {
+               Console.WriteLine("Everybody loose!");
+           }
+           */
+            Console.ReadKey();
+        }
+    }
+}
