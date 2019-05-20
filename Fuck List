@@ -28,64 +28,78 @@ namespace LetsPlaySomeCards
                     break;
             }
         }//какие масти?
-        static void OutCards(List<List<int>> players, int f)
+
+        static void OutCards(List<List<int>> players, int hand, int z)
         {
-            for (int z = 0; z < f; z++)
+            for (int y = 0; y < hand; y++)
             {
-                for(int y = 0; y < 6; y++)
+                int i = players[z][y];
+                int delete = i / 10;
+                string up10 = " ";
+                if (delete > 10)
                 {
-                    int i = players[z][y];
-                    int delete = i / 10;
-                    string up10 = " ";
-                    if (delete > 10)
+                    switch (delete)
                     {
-                        switch (delete)
-                        {
-                            case 11:
-                                up10 = "В";
-                                break;
-                            case 12:
-                                up10 = "Д";
-                                break;
-                            case 13:
-                                up10 = "К";
-                                break;
-                            case 14:
-                                up10 = "Т";
-                                break;
-                        }
-                        Console.Write(up10);
+                        case 11:
+                            up10 = "В";
+                            break;
+                        case 12:
+                            up10 = "Д";
+                            break;
+                        case 13:
+                            up10 = "К";
+                            break;
+                        case 14:
+                            up10 = "Т";
+                            break;
                     }
-                    else
-                    {
-                        Console.Write(delete);
-                    }
-                    Mast(i, out char alp);
-                    Console.Write("{0}, ", alp);
+                    Console.Write(up10);
                 }
+                else
+                {
+                    Console.Write(delete);
+                }
+                Mast(i, out char alp);
+                Console.Write("{0}, ", alp);
             }
             Console.WriteLine();
         }//какие карты?
-        static void GetCards(List<List<int>> players, List<List<int>> cards, int f, int hand, Random randcs, out List<List<int>> play)
+
+        //static void ChekOutCards()
+
+        static void GetCards(List<List<int>> players, List<List<int>> cards, int f, int hand, Random randcs, int countMast, out List<List<int>> play, out Boolean statrat, out int counttMast)
         {
+            Boolean statDeck = true;
             for (; hand < 6; hand++)
             {
-                int ranmast = randcs.Next(0, 3);
-                int rancards = randcs.Next(0, 8);
+
+                int ranmast = randcs.Next(0, countMast);
+                int LenCards = cards[ranmast].Count;
+                int rancards = randcs.Next(0, LenCards);
 
                 players[f].Add(cards[ranmast][rancards]);
                 cards[ranmast].Remove(cards[ranmast][rancards]);
-                if(cards.GetLength(0) == 0)
+
+                int fullDeck = (cards[0].Count + cards[1].Count + cards[2].Count + cards[3].Count);
+
+                if(fullDeck == 0)
+                {
+                    statDeck = false;
+                    break;
+                }
+                if (LenCards == 0)//удаление ненужного
                 {
                     cards.RemoveAt(ranmast);
+                    countMast--;
                 }
-                //cards.RemoveAt(ranmast, rancards);
-                
             }
             play = players;
             hand = 0;
+            statrat = statDeck;
+            counttMast = countMast;
 
         }//добор карт
+
         static void Main(string[] args)
         {
             List<List<int>> players = new List<List<int>>();
@@ -102,14 +116,14 @@ namespace LetsPlaySomeCards
             */
             int win = randcs.Next(0, 3);
             int swin = win++;
-            swin *= 10;
+            swin += 10;
 
             //сколько рук?
 
             Console.WriteLine("Count of player's");
             int playCount = int.Parse(Console.ReadLine());
 
-            for(int f = 0;f<playCount;f++)//добавляем игроков
+            for (int f = 0; f < playCount; f++)//добавляем игроков
             {
                 players.Add(new List<int>());
             }
@@ -128,28 +142,42 @@ namespace LetsPlaySomeCards
             }
 
             //руки игрокам!
+            Boolean status = true;
+            int countMast = 3;
 
-            for (int f = 0; f < playCount; f++)
+            if (status != false)
             {
-                GetCards(players, cards, f, hand, randcs, out List<List<int>> play);
-                players = play;
+                for (int f = 0; f < playCount; f++)
+                {
+                    if (status != false)
+                    {
+                        GetCards(players, cards, f, hand, randcs, countMast, out List<List<int>> play, out Boolean statDeck,out int cM);
+                        players = play;
+                        status = statDeck;
+                        countMast = cM;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                hand = 6;
             }
-            hand = 6;
 
             //какие руки, на вывод
             for (int f = 0; f < playCount; f++)
             {
-                int ff = f+1;
+                int ff = f + 1;
                 Console.Write("{0}'st player hand = ", ff);
-                OutCards(players,playCount);
+                OutCards(players, hand, f);
             }
 
             Console.WriteLine();
             Console.WriteLine();
 
-            char lol = '♣';
-            Mast(swin, out lol);
-            Console.WriteLine("The mast of winner is: {0}", lol);
+            Mast(swin, out char lol);
+            char lel = lol;
+            Console.WriteLine("The mast of winner is:" +  lel);
 
             swin /= 10;
             Console.ReadKey();
@@ -160,8 +188,12 @@ namespace LetsPlaySomeCards
 
 
 
-            // НАЧАЛО ИГРЫ!
-            //while()
+           /*//НАЧАЛО ИГРЫ!
+            boolean winner = false
+            while(winner != true)
+            {
+
+            }
             /*
            for (int y = 0; y < 6; y++)
            {
