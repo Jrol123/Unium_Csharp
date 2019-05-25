@@ -1,0 +1,142 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace LetsPlaySomeCards
+{
+    class Program
+    {
+        public void Mast(int a, out char mast)
+        {
+            a /= 10;
+            mast = '◘';
+            switch(a)
+            {
+                case 1:
+                    mast = '♥';
+                    break;
+                case 2:
+                    mast = '♦';
+                    break;
+                case 3:
+                    mast = '♣';
+                    break;
+                case 4:
+                    mast = '♠';
+                    break;
+            }
+        }//какие масти?
+        static void OutCards(int[,]players)
+        {
+            for(int z = 0; z < 6; z++)
+            {
+                foreach (int i in players)
+                {
+                    int delete = i / 10;
+                    string up10 = " ";
+                    if(i > 10)
+                    {
+                        switch (delete)
+                        {
+                            case 11:
+
+                                break;
+                            case 12:
+
+                                break;
+                            case 13:
+
+                                break;
+                            case 14:
+
+                                break;
+                        }
+                        Console.Write(up10);
+                    }
+                    else
+                    {
+                        Console.Write(i);
+                    }
+                    char alp = '♣';
+                    Mast(i, out char alp);
+                    Console.WriteLine("{0}, ",alp);
+                }
+            }
+        }//какие карты?
+        static void GetCards(int[,]players, int[,]cards, int[,]less, int f, int hand, Random randcs, out int[,]play, out int[,]lost,out int hond)
+        {
+            for (; hand < 6; hand++)
+            {
+                int ranmast = randcs.Next(0, 3);
+                int rancards = randcs.Next(0, 8);
+                if (cards[ranmast, rancards] == less[ranmast, rancards])
+                {
+                    hand--;
+                    continue;
+                }
+                else
+                {
+                    less[ranmast, rancards] = cards[ranmast, rancards];
+                    players[f, hand] = cards[ranmast, rancards];
+                }
+            }
+            play = players;
+            lost = less;
+            hond = hand;
+        }//добор карт
+        static void Main(string[] args)
+        {
+            int[,] cards = {{ 61, 71, 81, 191, 101 ,111 ,121 ,131 ,141 },{ 62, 72, 82, 92, 102, 112, 122, 132, 142 },{ 63, 73, 83, 93, 103, 113, 123, 133, 143 },{ 64, 74, 84, 94, 104, 114, 124, 134, 144 } };
+            int[,] less = { {0,0,0,0,0,0,0,0,0}, { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0 } };
+            int[] mast = {1,2,3,4};
+
+            int[,] players = { };
+            int[,] multip = { };
+
+            Random randcs = new Random();
+            /*
+            int cfs = 0;
+            int cnd = 0;
+            
+            Boolean stat = false;
+            */
+            int win = randcs.Next(0,3);
+            int swin = win++;
+
+            //сколько рук?
+
+            Console.WriteLine("Count of player's");
+            int playCount = int.Parse(Console.ReadLine());
+            int hand = 0;
+
+            //руки игрокам!
+            for(int f = 0; f < playCount; f++)
+            {
+                GetCards(players, cards, less, f, hand, randcs, out int[,]play, out int [,]lost,out int hond);
+                multip = play;
+                less = lost;
+                hand = hond;
+            }
+
+            //какие руки, на вывод
+            for(int f = 1; f < playCount; f++)
+            {
+                Console.Write("{0}'s player hand = ", f);
+                OutCards(multip);
+            }       
+
+            Console.WriteLine();
+            Console.WriteLine();
+            
+            Mast(swin, out char lol);
+            Console.WriteLine("The mast of winner is: {0}",lol);
+            
+            Console.ReadKey();
+
+            
+            Console.ReadKey();
+        }
+    }
+}
