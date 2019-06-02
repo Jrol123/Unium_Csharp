@@ -11,7 +11,7 @@ namespace LetsPlaySomeCards
         static void GetCards(List<List<int>> players, List<int> cards, int f, Random randcs, int countMast, out List<List<int>> play, out Boolean statrat, out int counttMast)
         {
             Boolean statDeck = true;
-            for (int hand = 0; hand < 36/players.Count; hand++)
+            for (int hand = 0; hand < 36 / players.Count; hand++)
             {
                 int LenCards = cards.Count;
                 int rancards = randcs.Next(0, LenCards);
@@ -48,7 +48,7 @@ namespace LetsPlaySomeCards
             {
                 players.Add(new List<int>());
             }//добавляем игроков
-            for(int al = 0; al < 4; al ++)
+            for (int al = 0; al < 4; al++)
             {
                 for (int z = 6; z < 15; z++)
                 {
@@ -84,63 +84,77 @@ namespace LetsPlaySomeCards
 
             Console.ReadLine();
 
-            int m = -1;
+            List<int> blocked = new List<int> { };
 
             while (winn != true)
             {
                 Boolean endd = false;
 
-                m++;
-
-                int playEnd = players.Count - 1;
-
-                if (m > playEnd)
-                {
-                    m = 0;
-                }// сравнение людей, если атакующий > номер последнего игрока, то первый игрок = 0
-
-                int ff = m + 1;
-
-                if (m == playEnd)
-                {
-                    ff = 0;
-                }//если атакующий == номеру последнего игрока, то защищающийся = 0
-
                 List<int> timeA = new List<int> { };
                 List<int> timeB = new List<int> { };
-                //List<int> blocked = new List<int> { };
+
+                List<int> duel = new List<int> { };
+                List<int> add = new List<int> { };
 
                 Boolean pain = false;
 
+                int alp = 0;
+
                 Console.Clear();
+
+                for(int y = 0; y < players.Count; y++)
+                {
+                    if(players[y].Count == 0)
+                    {
+                        players.Remove(players[y]);
+                    }
+                }//убираем игроков без карт
 
                 while (endd != true)
                 {
                     Console.Clear();
 
-                    for(int i = 0; i < playCount; i++)
+                    for (int i = 0; i < players.Count; i++)
                     {
                         int ii = i + 1;
-                        Console.Write("Count of cards by {0}'st player: {1}",ii,players[i].Count);
+                        Console.Write("Count of cards by {0}'st player: {1}", ii, players[i].Count);
                         Console.WriteLine();
-                    }
+                    }//вывод
                     Console.ReadKey();
 
                     Console.WriteLine();
                     Console.WriteLine();
 
-                    int attack = players[m][0];
-                    int defend = players[ff][0];
-                    if(attack > defend)
+                    for(int i = 0; i < players.Count; i++)
+                    {
+                        duel.Add(players[i][alp]);
+                        players[i].Remove(players[i][alp]);
+                        add.Add(players[i][alp]);
+                    }//добавляем карты к добавке и к сражающимся!!!
+
+                    for (int l = 0; l < playCount; l ++)
+                    {
+                        int z = l + 1;
+                        if(duel[z] > duel[l])
+                        {
+                            duel.Remove(duel[l]);
+                        }
+                        else if(duel[l] < duel[z])
+                        {
+                            duel.Remove(duel[z]);
+                        }
+                    }
+
+                    if (attack > defend)
                     {
                         players[m].Add(defend);
-                        if(pain == false)
+                        if (pain == false)
                         {
                             players[m].Remove(attack);
                             players[m].Add(attack);
                         }
 
-                        foreach(int add in timeA)
+                        foreach (int add in timeA)
                         {
                             players[m].Add(add);
                         }
@@ -151,7 +165,7 @@ namespace LetsPlaySomeCards
                     else if (attack < defend)
                     {
                         players[ff].Add(attack);
-                        if(pain == false)
+                        if (pain == false)
                         {
                             players[ff].Remove(defend);
                             players[ff].Add(defend);
@@ -165,9 +179,9 @@ namespace LetsPlaySomeCards
 
                         endd = true;
                     }
-                    else if(attack == defend)
+                    else if (attack == defend)
                     {
-                        if(players[m].Count - 1 == 0)
+                        if (players[m].Count - 1 == 0)
                         {
                             players[m].Add(defend);
                             if (pain == false)
@@ -213,9 +227,10 @@ namespace LetsPlaySomeCards
 
                             pain = true;
                         }
+                        alp++;
                     }
                 }
-                for(int z = 0; z< playCount; z++)
+                for (int z = 0; z < players.Count; z++)
                 {
                     if (players[z].Count == 36)
                     {
@@ -225,7 +240,7 @@ namespace LetsPlaySomeCards
                 }// если у кого-то вся колода, то он - победитель по жизни ))
             }
             Console.Clear();
-            Console.WriteLine("THE WINNER IS: {0}",winner + 1);
+            Console.WriteLine("THE WINNER IS: {0}", winner + 1);
 
             Console.WriteLine();
             Console.WriteLine();
@@ -235,5 +250,3 @@ namespace LetsPlaySomeCards
         }
     }
 }
-
-
