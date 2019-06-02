@@ -228,6 +228,12 @@ namespace LetsPlaySomeCards
                 {
                     if (CardGG.Count >= 1)
                     {
+                        int elseCard = 0;
+                        Boolean end = false;
+                        while(elseCard > 0 || end != false)
+                        {
+
+                        }
 
                     }//если идет не первая карта.
                     else if (attackCard % 10 == defend[pl] % 10)//если масти одинаковы
@@ -288,7 +294,7 @@ namespace LetsPlaySomeCards
                     int yy = y + 1;
                     Console.Write("{0}'st player hand = ", yy);
                     OutCards(players, hand, y);
-                }
+                }//вывод
                 Console.ReadKey();
             }
             /*
