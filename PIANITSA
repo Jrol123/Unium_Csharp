@@ -1,0 +1,239 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace LetsPlaySomeCards
+{
+    class Program
+    {
+        static void GetCards(List<List<int>> players, List<int> cards, int f, Random randcs, int countMast, out List<List<int>> play, out Boolean statrat, out int counttMast)
+        {
+            Boolean statDeck = true;
+            for (int hand = 0; hand < 36/players.Count; hand++)
+            {
+                int LenCards = cards.Count;
+                int rancards = randcs.Next(0, LenCards);
+
+                players[f].Add(cards[rancards]);
+                cards.Remove(cards[rancards]);
+
+                if (LenCards == 0)
+                {
+                    statDeck = false;
+                    break;
+                }
+            }
+            play = players;
+            statrat = statDeck;
+            counttMast = countMast;
+
+        }//добор карт
+        //работает корректно только на 2х игроков!
+
+        static void Main(string[] args)
+        {
+            List<List<int>> players = new List<List<int>>();
+            List<int> cards = new List<int> { };
+
+            Random randcs = new Random();
+
+            //сколько рук?
+
+            Console.Write("Count of player's: ");
+            int playCount = int.Parse(Console.ReadLine());
+
+            for (int f = 0; f < playCount; f++)//добавляем игроков
+            {
+                players.Add(new List<int>());
+            }//добавляем игроков
+            for(int al = 0; al < 4; al ++)
+            {
+                for (int z = 6; z < 15; z++)
+                {
+                    int y = z - 6;
+                    int alph = z * 10;
+                    cards.Add(z);
+                }//картишки в колоду!
+            }
+
+            //руки игрокам!
+            Boolean status = true;
+            int countMast = 3;
+
+            for (int f = 0; f < playCount; f++)
+            {
+                if (status != false)
+                {
+                    GetCards(players, cards, f, randcs, countMast, out List<List<int>> play, out Boolean statDeck, out int cM);
+                    players = play;
+                    status = statDeck;
+                    countMast = cM;
+                }
+                else
+                {
+                    break;
+                }
+            }//раздача колод игрокам
+
+            Boolean winn = false;
+            int winner = 0;
+
+            Console.WriteLine("Lets do this!");
+
+            Console.ReadLine();
+
+            int m = -1;
+
+            while (winn != true)
+            {
+                Boolean endd = false;
+
+                m++;
+
+                int playEnd = players.Count - 1;
+
+                if (m > playEnd)
+                {
+                    m = 0;
+                }// сравнение людей, если атакующий > номер последнего игрока, то первый игрок = 0
+
+                int ff = m + 1;
+
+                if (m == playEnd)
+                {
+                    ff = 0;
+                }//если атакующий == номеру последнего игрока, то защищающийся = 0
+
+                List<int> timeA = new List<int> { };
+                List<int> timeB = new List<int> { };
+                //List<int> blocked = new List<int> { };
+
+                Boolean pain = false;
+
+                Console.Clear();
+
+                while (endd != true)
+                {
+                    Console.Clear();
+
+                    for(int i = 0; i < playCount; i++)
+                    {
+                        int ii = i + 1;
+                        Console.Write("Count of cards by {0}'st player: {1}",ii,players[i].Count);
+                        Console.WriteLine();
+                    }
+                    Console.ReadKey();
+
+                    Console.WriteLine();
+                    Console.WriteLine();
+
+                    int attack = players[m][0];
+                    int defend = players[ff][0];
+                    if(attack > defend)
+                    {
+                        players[m].Add(defend);
+                        if(pain == false)
+                        {
+                            players[m].Remove(attack);
+                            players[m].Add(attack);
+                        }
+
+                        foreach(int add in timeA)
+                        {
+                            players[m].Add(add);
+                        }
+                        players[ff].Remove(defend);
+
+                        endd = true;
+                    }
+                    else if (attack < defend)
+                    {
+                        players[ff].Add(attack);
+                        if(pain == false)
+                        {
+                            players[ff].Remove(defend);
+                            players[ff].Add(defend);
+                        }
+
+                        foreach (int add in timeB)
+                        {
+                            players[ff].Add(add);
+                        }
+                        players[m].Remove(attack);
+
+                        endd = true;
+                    }
+                    else if(attack == defend)
+                    {
+                        if(players[m].Count - 1 == 0)
+                        {
+                            players[m].Add(defend);
+                            if (pain == false)
+                            {
+                                players[m].Remove(attack);
+                                players[m].Add(attack);
+                            }
+
+                            foreach (int add in timeA)
+                            {
+                                players[m].Add(add);
+                            }
+                            players[ff].Remove(defend);
+
+                            endd = true;
+                        }
+                        else if (players[ff].Count - 1 == 0)
+                        {
+                            players[ff].Add(attack);
+                            if (pain == false)
+                            {
+                                players[ff].Remove(defend);
+                                players[ff].Add(defend);
+                            }
+
+                            foreach (int add in timeB)
+                            {
+                                players[ff].Add(add);
+                            }
+                            players[m].Remove(attack);
+
+                            endd = true;
+                        }
+                        else
+                        {
+                            timeA.Add(defend);
+                            players[ff].Remove(defend);
+                            timeB.Add(defend);
+
+                            timeB.Add(attack);
+                            players[m].Remove(attack);
+                            timeA.Add(attack);
+
+                            pain = true;
+                        }
+                    }
+                }
+                for(int z = 0; z< playCount; z++)
+                {
+                    if (players[z].Count == 36)
+                    {
+                        winner = z;
+                        winn = true;
+                    }
+                }// если у кого-то вся колода, то он - победитель по жизни ))
+            }
+            Console.Clear();
+            Console.WriteLine("THE WINNER IS: {0}",winner + 1);
+
+            Console.WriteLine();
+            Console.WriteLine();
+
+            System.Threading.Thread.Sleep(1000);
+            Console.ReadKey();
+        }
+    }
+}
+
+
