@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LetsPlaySomeCards
+namespace Lolicon
 {
-    class Program
+    class Program7
     {
         static void GetCards(List<List<int>> players, List<int> cards, int f, Random randcs, int countMast, out List<List<int>> play, out Boolean statrat, out int counttMast)
         {
@@ -30,7 +30,7 @@ namespace LetsPlaySomeCards
             counttMast = countMast;
 
         }//добор карт
-        //работает корректно только на 2х игроков!
+        //работает корректно !
 
         static void Main(string[] args)
         {
@@ -82,29 +82,21 @@ namespace LetsPlaySomeCards
 
             Console.WriteLine("Lets do this!");
 
-            Console.ReadLine();
-
-            List<int> blocked = new List<int> { };
+            Console.ReadKey();
 
             while (winn != true)
             {
                 Boolean endd = false;
 
-                List<int> timeA = new List<int> { };
-                List<int> timeB = new List<int> { };
-
                 List<int> duel = new List<int> { };
-                List<int> add = new List<int> { };
-
-                Boolean pain = false;
+                List<int> blocked = new List<int> { };
+                List<int> multi = new List<int> { };
 
                 int alp = 0;
 
-                Console.Clear();
-
-                for(int y = 0; y < players.Count; y++)
+                for (int y = 0; y < players.Count; y++)
                 {
-                    if(players[y].Count == 0)
+                    if (players[y].Count == 0)
                     {
                         players.Remove(players[y]);
                     }
@@ -122,113 +114,62 @@ namespace LetsPlaySomeCards
                     }//вывод
                     Console.ReadKey();
 
-                    Console.WriteLine();
-                    Console.WriteLine();
-
                     for(int i = 0; i < players.Count; i++)
                     {
-                        duel.Add(players[i][alp]);
-                        players[i].Remove(players[i][alp]);
-                        add.Add(players[i][alp]);
-                    }//добавляем карты к добавке и к сражающимся!!!
-
-                    for (int l = 0; l < playCount; l ++)
-                    {
-                        int z = l + 1;
-                        if(duel[z] > duel[l])
+                        if(players[i].Equals(blocked))
                         {
-                            duel.Remove(duel[l]);
-                        }
-                        else if(duel[l] < duel[z])
-                        {
-                            duel.Remove(duel[z]);
-                        }
-                    }
-
-                    if (attack > defend)
-                    {
-                        players[m].Add(defend);
-                        if (pain == false)
-                        {
-                            players[m].Remove(attack);
-                            players[m].Add(attack);
-                        }
-
-                        foreach (int add in timeA)
-                        {
-                            players[m].Add(add);
-                        }
-                        players[ff].Remove(defend);
-
-                        endd = true;
-                    }
-                    else if (attack < defend)
-                    {
-                        players[ff].Add(attack);
-                        if (pain == false)
-                        {
-                            players[ff].Remove(defend);
-                            players[ff].Add(defend);
-                        }
-
-                        foreach (int add in timeB)
-                        {
-                            players[ff].Add(add);
-                        }
-                        players[m].Remove(attack);
-
-                        endd = true;
-                    }
-                    else if (attack == defend)
-                    {
-                        if (players[m].Count - 1 == 0)
-                        {
-                            players[m].Add(defend);
-                            if (pain == false)
-                            {
-                                players[m].Remove(attack);
-                                players[m].Add(attack);
-                            }
-
-                            foreach (int add in timeA)
-                            {
-                                players[m].Add(add);
-                            }
-                            players[ff].Remove(defend);
-
-                            endd = true;
-                        }
-                        else if (players[ff].Count - 1 == 0)
-                        {
-                            players[ff].Add(attack);
-                            if (pain == false)
-                            {
-                                players[ff].Remove(defend);
-                                players[ff].Add(defend);
-                            }
-
-                            foreach (int add in timeB)
-                            {
-                                players[ff].Add(add);
-                            }
-                            players[m].Remove(attack);
-
-                            endd = true;
                         }
                         else
                         {
-                            timeA.Add(defend);
-                            players[ff].Remove(defend);
-                            timeB.Add(defend);
-
-                            timeB.Add(attack);
-                            players[m].Remove(attack);
-                            timeA.Add(attack);
-
-                            pain = true;
+                            duel.Add(players[i][alp]);
+                            players[i].Remove(players[i][alp]);
                         }
-                        alp++;
+                    }//добавляем карты к сражающимся!
+                    int max = 0;
+                    int z = 0;
+
+                    duel.Sort();
+
+                    for (int l = 0; l < playCount; l ++)
+                    {
+                        if (duel[z] > duel[l])
+                        {
+                            max = z;
+                            blocked.Add(l);
+                            foreach (int rom in multi)
+                            {
+                                blocked.Add(rom);
+                            }
+                        }
+                        else if(duel[l] > duel[z])
+                        {
+                            max = l;
+                            blocked.Add(z);
+                            foreach(int rom in multi)
+                            {
+                                blocked.Add(rom);
+                            }
+                        }
+                        else if(duel[l] == duel[z])
+                        {
+                            max = l;
+                            multi.Add(l);
+                            multi.Add(z);
+                        }
+                        z = l;
+                    }//главное сравнение!!
+                    if (multi.Count > 0)
+                    {
                     }
+                    else
+                    {
+                        foreach(int lol in duel)
+                        {
+                            players[max].Add(lol);
+                        }
+                        endd = true;
+                    }
+                    
                 }
                 for (int z = 0; z < players.Count; z++)
                 {
