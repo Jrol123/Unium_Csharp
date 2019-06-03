@@ -102,6 +102,8 @@ namespace Lolicon
                     }
                 }//убираем игроков без карт
 
+                bool stylus = true;
+
                 while (endd != true)
                 {
                     Console.Clear();
@@ -119,6 +121,15 @@ namespace Lolicon
                         if(players[i].Equals(blocked))
                         {
                         }
+                        else if(players[i].Count == 0)
+                        {
+                            foreach(int lol in duel)
+                            {
+                                players[i].Add(lol);
+                            }
+                            stylus = false;
+                            break;
+                        }
                         else
                         {
                             duel.Add(players[i][alp]);
@@ -130,31 +141,39 @@ namespace Lolicon
 
                     duel.Sort();
 
-                    for (int l = 0; l < playCount; l ++)
+                    if(stylus == false)
                     {
-                        if (duel[z] > duel[l])
+                        break;
+                    }
+                    for (int l = 0; l < players.Count; l ++)
+                    {
+                        if(z != l)
                         {
-                            max = z;
-                            blocked.Add(l);
-                            foreach (int rom in multi)
+                            if (duel[z] > duel[l])
                             {
-                                blocked.Add(rom);
+                                max = z;
+                                blocked.Add(l);
+                                foreach (int rom in multi)
+                                {
+                                    blocked.Add(rom);
+                                }
                             }
-                        }
-                        else if(duel[l] > duel[z])
-                        {
-                            max = l;
-                            blocked.Add(z);
-                            foreach(int rom in multi)
+                            else if (duel[l] > duel[z])
                             {
-                                blocked.Add(rom);
+                                max = l;
+                                blocked.Add(z);
+                                foreach (int rom in multi)
+                                {
+                                    blocked.Add(rom);
+                                }
+                                multi.Clear();
                             }
-                        }
-                        else if(duel[l] == duel[z])
-                        {
-                            max = l;
-                            multi.Add(l);
-                            multi.Add(z);
+                            else if (duel[l] == duel[z])
+                            {
+                                max = l;
+                                multi.Add(l);
+                                multi.Add(z);
+                            }
                         }
                         z = l;
                     }//главное сравнение!!
