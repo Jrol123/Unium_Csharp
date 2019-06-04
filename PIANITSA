@@ -88,7 +88,7 @@ namespace Lolicon
             {
                 Boolean endd = false;
 
-                List<int> duel = new List<int> { };
+                List<int> addon = new List<int> { };
                 List<int> blocked = new List<int> { };
                 List<int> multi = new List<int> { };
 
@@ -98,27 +98,26 @@ namespace Lolicon
                 {
                     if (players[y].Count == 0)
                     {
-                        players.Remove(players[y]);
+                        blocked.Add(y);
                     }
-                }//убираем игроков без карт
+                }//блокируем игроков без карт
+                Console.Clear();
+                for (int i = 0; i < players.Count; i++)
+                {
+                    int ii = i + 1;
+                    Console.WriteLine("Count of cards by {0}'st player: {1}", ii, players[i].Count);
+                }//вывод
+                Console.ReadKey();
 
                 bool stylus = true;
 
                 while (endd != true)
                 {
-                    Console.Clear();
-
-                    for (int i = 0; i < players.Count; i++)
-                    {
-                        int ii = i + 1;
-                        Console.Write("Count of cards by {0}'st player: {1}", ii, players[i].Count);
-                        Console.WriteLine();
-                    }//вывод
-                    Console.ReadKey();
+                    List<int> duel = new List<int> { };
 
                     for(int i = 0; i < players.Count; i++)
                     {
-                        if(players[i].Equals(blocked))
+                        if(i.Equals(blocked))
                         {
                         }
                         else if(players[i].Count == 0)
@@ -133,13 +132,11 @@ namespace Lolicon
                         else
                         {
                             duel.Add(players[i][alp]);
+                            addon.Add(players[i][alp]);
                             players[i].Remove(players[i][alp]);
                         }
                     }//добавляем карты к сражающимся!
                     int max = 0;
-                    int z = 0;
-
-                    duel.Sort();
 
                     if(stylus == false)
                     {
@@ -147,42 +144,39 @@ namespace Lolicon
                     }
                     for (int l = 0; l < players.Count; l ++)
                     {
-                        if(z != l)
+                        if(max != l)
                         {
-                            if (duel[z] > duel[l])
+                            if (duel[max] > duel[l])
                             {
-                                max = z;
                                 blocked.Add(l);
                                 foreach (int rom in multi)
                                 {
                                     blocked.Add(rom);
                                 }
                             }
-                            else if (duel[l] > duel[z])
+                            else if (duel[l] > duel[max])
                             {
+                                blocked.Add(max);
                                 max = l;
-                                blocked.Add(z);
                                 foreach (int rom in multi)
                                 {
                                     blocked.Add(rom);
                                 }
                                 multi.Clear();
                             }
-                            else if (duel[l] == duel[z])
+                            else if (duel[l] == duel[max])
                             {
-                                max = l;
                                 multi.Add(l);
-                                multi.Add(z);
+                                multi.Add(max);
                             }
                         }
-                        z = l;
                     }//главное сравнение!!
                     if (multi.Count > 0)
                     {
                     }
                     else
                     {
-                        foreach(int lol in duel)
+                        foreach(int lol in addon)
                         {
                             players[max].Add(lol);
                         }
