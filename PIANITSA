@@ -92,6 +92,7 @@ namespace Lolicon
                 List<int> blocked = new List<int> { };
                 List<int> multi = new List<int> { };
 
+                int count = 0;
                 int alp = 0;
 
                 for (int y = 0; y < players.Count; y++)
@@ -99,6 +100,10 @@ namespace Lolicon
                     if (players[y].Count == 0)
                     {
                         blocked.Add(y);
+                    }
+                    else
+                    {
+                        count++;
                     }
                 }//блокируем игроков без карт
                 Console.Clear();
@@ -142,7 +147,7 @@ namespace Lolicon
                     {
                         break;
                     }
-                    for (int l = 0; l < players.Count; l ++)
+                    for (int l = 0; l < count; l ++)
                     {
                         if(max != l)
                         {
