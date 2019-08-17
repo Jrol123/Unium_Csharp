@@ -8,10 +8,12 @@ namespace Bycicle
 {
     class Program
     {
-        static void Transformator(string a, List<List<object>> glob, out Boolean status)
+        static void Transformator(string a, List<List<string>> glob, out Boolean status, out List<List<string>> globall)
         {
             string[] com = { "bicycle", "help", "xtml" };
             List<string> person = new List<string>();
+
+            Boolean status = false;
 
             if (a == "help")
             {
@@ -34,34 +36,40 @@ namespace Bycicle
                 Console.WriteLine();
 
                 Boolean lol = false;
-
-                int [] codson = new int[2] {0,0};
+                Boolean police = false;
 
                 person.Add(fs);
 
-                if(glob.Count > 0)
+                if (glob.Count > 0)
                 {
                     for (int i = 0; i < glob.Count; i++)
                     {
                         if (fs == glob[i][0])
                         {
                             lol = true;
-                            codson[0] = i;
 
-                            Console.WriteLine("Woah! We know this man! he has {0} reputation, and his count of travels is {1}", glob[i][2], glob[i][3]);
+                            Console.WriteLine("Woah! We know this man! he has {0} reputation, and his count of travels is {1}!", glob[i][2], glob[i][3]);
                             Console.WriteLine();
-                            if(glob[])
+                            if (glob[i][2] == "0")
+                            {
+                                Console.WriteLine("ABORT! IT'S A CRIMINAL DANGER FOR OUR BUISNESS! CALL A POLICE!");
+                                police = true;
+                            }
 
                             break;
                         }
                     }
+                    if (police == true)
+                    {
+
+                    }
                 }
-                
+
                 if (lol == false)
                 {
                     Console.WriteLine("Well... We have a new member of our great family!");
 
-                    glob.Add(new List<object>());
+                    glob.Add(new List<string>());
                     glob[0].Add(fs);
 
                     Console.WriteLine();
@@ -71,7 +79,7 @@ namespace Bycicle
                     glob[0][1] = Console.ReadLine();
                 }
 
-                Console.WriteLine("Well... Se Ya later, man!");
+                Console.WriteLine("Well... Se Ya later, man! Goodbye!");
 
             }
             else if (a == "xtml")
@@ -80,16 +88,20 @@ namespace Bycicle
 
 
             }
+            else if (a == "back")
+            {
+
+            }
             else
             {
                 status = false;
                 Console.WriteLine("Wrong Command");
             }
-
+            globall = glob;
         }
         static void Main(string[] args)
         {
-            List<List<object>> global = new List<List<object>>();
+            List<List<string>> global = new List<List<string>>();
             Boolean stat = false;
 
             Console.WriteLine("Hello, Worker!");
@@ -112,7 +124,9 @@ namespace Bycicle
 
                 while (stat == false)
                 {
-                    Transformator(input, global, out Boolean status);
+                    Transformator(input, global, out Boolean status, out List<List<string>> globall);
+
+                    global = globall;
 
                     stat = status;
 
