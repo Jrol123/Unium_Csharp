@@ -8,7 +8,7 @@ namespace Bycicle
 {
     class Program
     {
-        static void Transformator(string a, List<List<string>> glob, out Boolean status, out List<List<string>> globall)
+        static void Transformator(string a, List<List<string>> glob, out Boolean stutus, out List<List<string>> globall)
         {
             string[] com = { "bicycle", "help", "xtml" };
             List<string> person = new List<string>();
@@ -55,6 +55,12 @@ namespace Bycicle
                                 Console.WriteLine("ABORT! IT'S A CRIMINAL DANGER FOR OUR BUISNESS! CALL A POLICE!");
                                 police = true;
                             }
+                            else
+                            {
+                                Console.WriteLine();
+                                Console.WriteLine("Do you want to give him a bike? (Yes/No)");
+                                Console.WriteLine();
+                            }
 
                             break;
                         }
@@ -67,6 +73,7 @@ namespace Bycicle
 
                 if (lol == false)
                 {
+                    int NM = glob.Count;
                     Console.WriteLine("Well... We have a new member of our great family!");
 
                     glob.Add(new List<string>());
@@ -76,7 +83,9 @@ namespace Bycicle
                     Console.WriteLine("We need a phone number of this person");
                     Console.WriteLine();
 
-                    glob[0][1] = Console.ReadLine();
+                    glob[NM].Add(Console.ReadLine());
+                    glob[NM].Add("10");
+                    glob[NM].Add("0");
                 }
 
                 Console.WriteLine("Well... Se Ya later, man! Goodbye!");
@@ -90,7 +99,33 @@ namespace Bycicle
             }
             else if (a == "back")
             {
+                status = true;
 
+                Console.WriteLine();
+                Console.WriteLine("Write the first name and last name of the man, that want's to take a bike");
+                Console.WriteLine();
+
+                string check = Console.ReadLine();
+
+                if(glob.Equals (check))
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("Did he return the bycicle at time?(Yes/No)");
+                    Console.WriteLine();
+
+                    int ball = 10;
+
+                    Console.ReadLine();
+
+                }
+                else
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("You typed the wrong name!");
+                    Console.WriteLine();
+                }
+
+                
             }
             else
             {
@@ -98,6 +133,7 @@ namespace Bycicle
                 Console.WriteLine("Wrong Command");
             }
             globall = glob;
+            stutus = status;
         }
         static void Main(string[] args)
         {
