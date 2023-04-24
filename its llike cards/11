@@ -1,0 +1,139 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp35
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+
+            Console.Write("count of puipls is:");
+            int count = int.Parse(Console.ReadLine());
+
+            Console.WriteLine();
+            Console.WriteLine();
+
+            List<int> school = new List<int> { };
+            
+            int z = 0;
+            int nocool = 0;
+            int cool = 0;
+
+            List<int> normal = new List<int> { };
+            List<int> fail = new List<int> { };
+            /*
+            int change = 0;
+            Boolean stats = true;
+            */
+            for(int i = 1; i <= count; i++)
+            {
+                Console.Write("school number, in which {0}'st puipl is learn informatic, is:",i);
+                int f = int.Parse(Console.ReadLine());
+
+                if (z == f)
+                {
+                    nocool++;
+                    fail.Add(f);
+                }
+                else
+                {
+                    cool++;
+                    normal.Add(f);
+                }
+                z = f;
+
+                Console.WriteLine();
+                Console.WriteLine();
+
+                school.Add(f);
+            }//перечисление номеров школ
+
+            fail.Sort();
+
+            if(normal[0] == fail[0])
+            {
+                fail.Add(normal[0]);
+                normal.Remove(normal[0]);
+                cool--;
+                nocool++;
+            }
+
+            fail.Sort();
+            Boolean end = false;
+            int world = nocool - cool;
+            List<int> epilog = new List<int> { };
+            Boolean endeed = false;
+            if (world > 1)
+            {
+                Console.WriteLine("0");
+            }
+            else if(fail.Count != 0)
+            {
+                int alp = 0;
+                foreach (int i in fail)
+                {
+                    int time = normal[alp];
+                    epilog.Add(i);
+                    epilog.Add(time);
+                    alp++;
+                }//В-1
+                for(; alp < normal.Count; alp ++)
+                {
+                    int time = normal[alp];
+                    epilog.Add(time);
+                }
+                end = true;
+                 /*
+                 foreach(int i in fail)
+                 {
+                     int time = normal[alp];
+                     epilog.Add(i);
+                     epilog.Add(time);
+                     alp++;
+                 }//В-2
+                 */
+            }
+            else
+            {
+                endeed = true;
+            }
+
+            int y = 1;
+            if (end == true)
+            {
+                if(endeed == false)
+                {
+                    foreach (int i in epilog)
+                    {
+                        //int fexit = epilog[i];
+                        Console.Write("num of {0}'s chair: {1}", y, i);
+
+                        Console.WriteLine();
+                        Console.WriteLine();
+
+                        y++;
+                    }//вывод шкалок
+                }
+                else if(endeed == true)
+                {
+                    for (int i = 0; i < count; i++)
+                    {
+                        Console.Write("num of {0}'s chair: {1}", y, school[i]);
+
+                        Console.WriteLine();
+                        Console.WriteLine();
+
+                        y++;
+                    }//вывод шкалок
+                }
+                
+            }
+
+            Console.ReadKey();
+        }
+    }
+}
